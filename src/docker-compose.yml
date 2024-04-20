@@ -1,0 +1,41 @@
+version: "3"
+
+networks:
+    inception:
+        driver: bridge
+
+volumes:
+    mariadb:
+        driver_opts:
+            type: none
+            o: bind
+            device: $MARIADB_VOLUME_PATH
+
+  
+    wordpress:
+        driver_opts:
+            type: none
+            o: bind
+            device: $WORDPRESS_VOLUME_PATH
+
+
+services:
+    mariadb:
+        image: mariadb
+        container_name: mariadb
+        build:
+            context: ./requirements/mariadb/.
+        expose:
+            - $MARIADB_PORT
+        ports:
+            - $MARIADB_PORT:$MARIADB_PORT
+        env_file:
+            - .env
+        networks:
+            - inception
+        volumes:
+            - mariadb:/var/lib/mysql
+        stdin_open: true
+        tty: true
+        restart: on-failure
+    
