@@ -1,18 +1,17 @@
 #!/bin/bash
 
-service mysql start
+service mariadb start
 
 cat << eof > mariadb.sql
 CREATE DATABASE $DATABASE_NAME;
 FLUSH PRIVILEGES;
-CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_USER_PASSWORD';
-GRANT ALL ON $DATABASE_NAME.* TO '$MYSQL_USER'@'%';
-GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
+CREATE USER '$MARIADB_USER'@'%' IDENTIFIED BY '$MARIADB_USER_PASSWORD';
+GRANT ALL ON $DATABASE_NAME.* TO '$MARIADB_USER'@'%';
 FLUSH PRIVILEGES;
 eof
 
-mysql -u root < mariadb.sql
+mariadb < mariadb.sql
 
-service mysql stop
+service mariadb stop
 
 exec $@

@@ -27,15 +27,53 @@ services:
             context: ./requirements/mariadb/.
         expose:
             - $MARIADB_PORT
-        ports:
-            - $MARIADB_PORT:$MARIADB_PORT
         env_file:
             - .env
         networks:
             - inception
         volumes:
-            - mariadb:/var/lib/mysql
+            - mariadb:/var/lib/mysql/
         stdin_open: true
         tty: true
         restart: on-failure
+    
+    nginx:
+        image: nginx
+        container_name: nginx
+        build:
+            context: ./requirements/nginx/.
+        expose:
+            - $NGINX_PORT
+        ports:
+            - $NGINX_PORT:$NGINX_PORT
+        env_file:
+            - .env
+        networks:
+            - inception
+        volumes:
+            - wordpress:/var/www/html/
+        stdin_open: true
+        tty: true
+        restart: on-failure
+        depends_on:
+            - wordpress
+
+    wordpress:
+        image: wordpress
+        container_name: wordpress
+        build:
+            context: ./requirements/wordpress/.
+        expose:
+            - $WORDPRESS_PORT
+        env_file:
+            - .env
+        networks:
+            - inception
+        volumes:
+            - wordpress:/var/www/html/
+        stdin_open: true
+        tty: true
+        restart: on-failure
+        depends_on:
+            - mariadb
     
