@@ -7,16 +7,11 @@ if [ -f "/var/www/html/wordpress/wp-config.php" ]; then
 	exit 0;
 fi
 
-if [ ! -d "/usr/local/bin/wp/" ]; then
-	wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-	chmod +x wp-cli.phar
-	mv wp-cli.phar /usr/local/bin/wp
-fi
+wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+chmod +x wp-cli.phar
+mv wp-cli.phar /usr/local/bin/wp
 
-if [ ! -d "/var/www/html/wordpress" ]; then
-    mkdir -p /var/www/html/wordpress
-fi
-
+mkdir -p /var/www/html/wordpress
 cd /var/www/html/wordpress
 rm -rf /var/www/html/wordpress/*
 
