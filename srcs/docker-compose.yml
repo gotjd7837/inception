@@ -33,8 +33,6 @@ services:
             - inception
         volumes:
             - mariadb:/var/lib/mysql/
-        stdin_open: true
-        tty: true
         restart: on-failure
     
     nginx:
@@ -52,8 +50,6 @@ services:
             - inception
         volumes:
             - wordpress:/var/www/html/
-        stdin_open: true
-        tty: true
         restart: on-failure
         depends_on:
             - wordpress
@@ -71,8 +67,6 @@ services:
             - inception
         volumes:
             - wordpress:/var/www/html/
-        stdin_open: true
-        tty: true
         restart: on-failure
         depends_on:
             - mariadb
